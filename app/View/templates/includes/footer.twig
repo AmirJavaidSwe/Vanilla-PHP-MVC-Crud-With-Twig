@@ -1,0 +1,75 @@
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $(document).on("click", ".delete-record", function(event) {
+                event.preventDefault();
+                if(confirm("Are you sure, you want to delete this record? this action is irreversible.")) {
+                    window.location.href = $(this).attr('href');
+                }
+            });
+
+            $(document).find(".credits").each(function(index, elem) {
+                $(this).find(".credit_name").attr("name", "credit_name[" + index + "]");
+                $(this).find(".credit_points").attr("name", "credit_points[" + index + "]");
+            });
+
+            $(".add-more").click(function() {
+                let clone = $(".credits:first").clone();
+                clone.find("input").val("");
+                clone.find(".remove").removeClass('d-none');
+
+                let index = $(document).find(".credits").length;
+                clone.find(".credit_points").attr("name", "credit_points[" + index + "]");
+                clone.find(".credit_name").attr("name", "credit_name[" + index + "]");
+                $(clone).insertAfter(".credits:last");
+            });
+
+            $(document).on("click", ".remove", function() {
+                $(this).closest(".credits").remove();
+            });
+            $(document).find(".credits").find(".remove").removeClass('d-none');
+            $(document).find(".credits:first").find(".remove").addClass('d-none');
+
+            $("#course-add-form, #course-edit-form").validate({
+                rules: {
+                    name: "required",
+                    instructor: "required",
+                    description: "required",
+                    "credit_name[]": {
+                        "required": true
+                    },
+                    "credit_points[]": {
+                        "required": true,
+                        "number": true,
+                        min: 0.1
+                    }
+                },
+
+                messages: {
+                    name: "Please enter the course name",
+                    instructor: "Please enter the instructor's name",
+                    description: "Please enter a description",
+                    "credit_name[]": "Please enter a credit name",
+                    "credit_points[]": {
+                        required: "Please enter credit points",
+                        number: "Credit points must be a valid number",
+                        min: "Credit points must be at least 0.1"
+                    }
+                }
+            });
+        });
+    </script>
+    </body>
+
+    </html>

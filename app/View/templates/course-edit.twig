@@ -1,0 +1,42 @@
+{% include 'includes/header.twig' %}
+
+<div class="d-flex align-items-center justify-content-between">
+    <h1>Edit Course</h1>
+    <a class="btn btn-secondary mb-2" href="/">
+        < Back to List</a>
+</div>
+<form method="post" id="course-edit-form" class='col-6 mt-4'>
+    <div class="form-group mb-4">
+        <label for="name">Course Name: <span class="text-danger"><sup>*</sup></span></label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ course.name }}" required>
+    </div>
+    <div class="form-group mb-4">
+        <label for="instructor">Instructor Name: <span class="text-danger"><sup>*</sup></span></label>
+        <input type="text" class="form-control" id="instructor" name="instructor" value="{{ course.instructor }}" required>
+    </div>
+    <div class="form-group mb-4">
+        <label for="description">Description <span class="text-danger"><sup>*</sup></span></label>
+        <textarea class="form-control" rows="5" id="description" name="description" required>{{ course.description }}</textarea>
+    </div>
+    {% for key, value in course.credits %}
+        <div class="credits d-flex gap-3 align-items-center">
+            <div class="form-group">
+                <label>Credit Name: <span class="text-danger"><sup>*</sup></span></label>
+                <input type="text" class="form-control credit_name" name="credit_name[]" value="{{ key }}" required>
+            </div>
+            <div class="form-group">
+                <label>Credit Points: <span class="text-danger"><sup>*</sup></span></label>
+                <input type="number" min="0.1" class="form-control credit_points" step="0.1" name="credit_points[]" value="{{ value }}" required>
+            </div>
+            <div class="form-group">
+                <a href="javascript:;" class="d-none remove text-danger" href="/"> - Remove</a>
+            </div>
+        </div>
+    {% endfor %}
+    <div>
+        <a href="javascript:;" class="add-more" href="/">+ add more</a>
+    </div>
+    <button type="submit" class="btn btn-primary mt-4">Submit</button>
+</form>
+
+{% include 'includes/footer.twig' %}

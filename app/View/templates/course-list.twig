@@ -1,0 +1,48 @@
+{% include 'includes/header.twig' %}
+
+<div class="d-flex align-items-center justify-content-between">
+    <h1>Course List</h1>
+    <a class="btn btn-primary mb-2" href="/add"> + Add New Course</a>
+</div>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Instructor</th>
+            <th>Description</th>
+            <th>Credits</th>
+            <th class='text-center'>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course . id }}</td>
+            <td>{{ course . name }}</td>
+            <td>{{ course . instructor }}</td>
+            <td>{{ course . description }}</td>
+            <td>
+        <table class="table table-striped">
+            <tr>
+                <th>Credit Name</th>
+                <th>Credit Value</th>
+            </tr>
+            {% for key, value in course.credits %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </td>
+            <td class="d-flex align-items-center justify-content-evenly">
+                <a href="/edit/{{ course . id }}">Edit</a>
+                <a class="delete-record" href="/delete/{{ course . id }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% include 'includes/footer.twig' %}
